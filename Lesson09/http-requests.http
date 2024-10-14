@@ -1,0 +1,7 @@
+
+GET http://httpforever.com/favicon.ico HTTP/1.1
+
+###
+
+GET https://www.isel.pt
+
