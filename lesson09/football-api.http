@@ -1,0 +1,29 @@
+### Get team by id
+GET https://v3.football.api-sports.io/teams?id=211
+x-apisports-key: 37eb60d963f1cbea94a0544563e4e0ea
+
+
+
+### Get leagues for a country
+GET https://v3.football.api-sports.io/leagues?code=PT
+x-apisports-key: 37eb60d963f1cbea94a0544563e4e0ea
+
+
+### Get leagues Portuguese league for 2022
+GET https://v3.football.api-sports.io/leagues?id=94&season=2022
+x-apisports-key: 37eb60d963f1cbea94a0544563e4e0ea
+
+
+### Get Portuguese league teams for 2022
+GET https://v3.football.api-sports.io/teams?league=94&season=2022
+x-apisports-key: 37eb60d963f1cbea94a0544563e4e0ea
+
+
+### Get Benfica Team for 2022
+GET https://v3.football.api-sports.io/teams?id=211
+x-apisports-key: 37eb60d963f1cbea94a0544563e4e0ea
+
+
+### Get Benfica Squad for current season
+GET https://v3.football.api-sports.io/players/squads?team=211
+x-apisports-key: 37eb60d963f1cbea94a0544563e4e0ea
