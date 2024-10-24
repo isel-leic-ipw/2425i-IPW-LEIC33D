@@ -1,0 +1,19 @@
+@prefix = http://localhost:1904/api
+
+### List/Search books
+GET {{prefix}}/books
+
+
+### Get book details 
+GET {{prefix}}/books/slb
+
+### Delete Book
+DELETE {{prefix}}/books/1
+
+### Update Book
+PUT {{prefix}}/books/{id}
+
+### Create Book
+POST {{prefix}}/books
+
+
