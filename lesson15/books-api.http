@@ -1,0 +1,36 @@
+@prefix = http://localhost:1904/api
+
+### List/Search books
+GET {{prefix}}/books
+
+
+### Get book details 
+GET {{prefix}}/books/5
+
+### Delete Book
+DELETE {{prefix}}/books/5
+
+### Update Book
+PUT {{prefix}}/books/1
+Content-Type: application/json
+
+{
+    "title1": "New Book",
+    "isbn": 902323
+}
+
+
+### Create Book
+POST {{prefix}}/books
+Content-Type: application/json
+
+{
+    "title1": "New Book",
+    "isbn": 902323
+}
+
+### Non registred route
+GET {{prefix}}/dsfdsfds 
+
+
+
