@@ -10,7 +10,7 @@ export async function getBooks(req, rsp) {
     // const allBooks = await booksService.getBooks()
     // req.json(allBooks)
 
-    booksService.getBooks()
+    booksService.getBooks(getUserId())
         .then(allBooks => req.json(allBooks))
     
     
@@ -19,7 +19,7 @@ export async function getBooks(req, rsp) {
 export function addBook(req, rsp) {
     let bookRepresentation = req.body
     booksService
-        .addBook(bookRepresentation)
+        .addBook(getUserId(), bookRepresentation)
         .then(newBook => { 
             rsp.status(201).send({
                 description: `Book created`,
@@ -33,28 +33,25 @@ export function addBook(req, rsp) {
 }
 
 
-export async function addBookAw(req, rsp) {
-    let bookRepresentation = req.body
-    try  {
-        const newBook = await booksService.addBook(bookRepresentation)
-        rsp.status(201).send({
-            description: `Book created`,
-            uri: `/api/books/${newBook.id}`
-        })
-    } catch(e) {
-            badRequest(rsp)
-    }
-}
+// export async function addBookAw(req, rsp) {
+//     let bookRepresentation = req.body
+//     try  {
+//         const newBook = await booksService.addBook(bookRepresentation)
+//         rsp.status(201).send({
+//             description: `Book created`,
+//             uri: `/api/books/${newBook.id}`
+//         })
+//     } catch(e) {
+//             badRequest(rsp)
+//     }
+// }
 
 export function getBook(req, rsp) {
     const bookId = req.params.bookId
-    const book = BOOKS.find(b => b.id == bookId)
-    if(book) {
-        rsp.json(book)
-        return
-    } 
-    // Book not found. Inform the client
-    bookNotFound(rsp, bookId)
+    const userId = getUserId()
+    booksService.getBook(userId, bookId)
+        .then(book => rsp.json(book))
+        .catch(err => rsp.status(404).json(err)
 }
 
 export function updateBook(req, rsp) {
@@ -104,4 +101,10 @@ function sendStatusResponse(rsp, status, message) {
         .json({
             message: message
         })
+}
+
+
+function getUserId(req) {
+    const userIDFakeUser = 1
+    return userIDFakeUser
 }

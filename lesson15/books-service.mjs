@@ -1,47 +1,42 @@
 /**
- * Implements all Books handling logic and manage books data
+ * Implements all Books handling logic 
  */
 
+import * as booksData from './books-data-mem.mjs'
 
-let idNextBook = 0
-
-function Book(title, isbn) {
-    this.id = ++idNextBook
-    this.title = title
-    this.isbn = isbn
-    this.updateCount = 0
-}
-
-
-const BOOKS = [
-    new Book("Book1", 1111111),
-    new Book("Book2", 2222222),
-    new Book("Book3", 3333333),
-    new Book("Book4", 4444444),
-]
 
 function InvalidData(message) {
     this.message = message
 }
 
-export  function getBooks() {
-    return Promise.resolve(BOOKS)
+export  function getBooks(userId) {
+    return booksData.getBooks(userId);
 }
 
-export function addBook(bookCreator) {
+export function addBook(userId, bookCreator) {
     if(bookCreator.title && bookCreator.isbn) {
-        const newBook = new Book(bookRepresentation.title, bookRepresentation.isbn)
-        BOOKS.push(newBook)
-        return Promise.resolve(newBook)
+        booksData.addBook(userId, bookCreator)    
     }
     Promise.reject(new InvalidData(`Books creation must have a title and isbn`))
 }
 
-export async function addBook(bookCreator) {
-    if(bookCreator.title && bookCreator.isbn) {
-        const newBook = new Book(bookRepresentation.title, bookRepresentation.isbn)
-        BOOKS.push(newBook)
-        return newBook
-    }
-    throw InvalidData(`Books creation must have a title and isbn`))
+export function getBook(userId, bookId) {
+    // Validate BookId - TO DO
+    return booksData.getBook(bookId)
+        .then(book => {
+            if(!book || book.userId != userId) {
+                return Promise.reject("Book not found")
+            }
+            return book
+        })
+
 }
+
+// export async function addBook(bookCreator) {
+//     if(bookCreator.title && bookCreator.isbn) {
+//         const newBook = new Book(bookRepresentation.title, bookRepresentation.isbn)
+//         BOOKS.push(newBook)
+//         return newBook
+//     }
+//     throw InvalidData(`Books creation must have a title and isbn`))
+// }
