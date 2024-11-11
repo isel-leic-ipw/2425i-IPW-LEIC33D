@@ -1,7 +1,7 @@
 @prefix = http://localhost:1904/api
 
 ### List/Search books
-GET {{prefix}}/books
+GET {{prefix}}/books?q=sometitle&limit=3&skip=9
 
 
 ### Get book details 
@@ -33,4 +33,34 @@ Content-Type: application/json
 GET {{prefix}}/dsfdsfds 
 
 
+# 1ª
+1
+2
+3
 
+# 2º
+4
+5
+6
+
+# 3º
+7
+8
+9
+
+# 4º
+10
+11
+12
+
+13
+14
+15
+
+16
+17
+18
+
+19
+20
+21

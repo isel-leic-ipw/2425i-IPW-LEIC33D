@@ -10,7 +10,7 @@ info:
   version: 1.0.0
 servers:
   - description: Localhost server for testing API
-    url: http://localhost:1904
+    url: http://localhost:1904/
 
 security:
   - bearerAuth: []
@@ -50,37 +50,38 @@ paths:
   #       400:
   #         description: Invalid input, object invalid
   #         content: {}
-  /books:
+  /api/books:
     description: Resource that contains all Books
     get:
       tags:
       - Books
-      summary: get Books
+      summary: Get Books
       description: By passing in the appropriate options, you can search for available
         Books
       operationId: getBooks
       parameters:
-        - name: keyword
+        - name: q
           in: query
           description: Query to match in book title
           schema: 
             type: string
           required: false
-        - name: s
+        - name: limit
           in: query
           description: number of books to return
           schema:
             default: 30
             minimum: 0
             type: integer
-        - name: p
+          required: false
+        - name: skip
           in: query
           description: The page number
           schema:
-            maximum: 50
             minimum: 0
-            default: 1
+            default: 0
             type: integer
+          required: false
       responses:
         200:
           description: get all books, with the specified criteria and pagination 
@@ -115,9 +116,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/NewBookCreated'
         400:
-          description: Invalid input, object invalid
-          content: {}
-  /books/{bookId}:
+          $ref: "#/components/responses/400BadRequest"
+  /api/books/{bookId}:
     description: The resource that represents one Book
     get:
       tags:
@@ -168,7 +168,17 @@ paths:
       responses:
         201:
           description: book updated
-          content: {}
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  message:
+                    type: string
+                    example: "Book with id 1 updated"
+
+
+
         404:
           $ref: "#/components/responses/404NotFound"  
     delete:
@@ -205,17 +215,17 @@ components:
       properties:
         title:
           type: string
-          example: Study Http
-        description:
+          example: Gatsby 
+        isbn:
           type: string
-          example: To develop web applications, knowing HTTP is fundamental
+          example: 978-3-16-148410-0
     Book:
       allOf: 
         - $ref: "#/components/schemas/NewBook"
         - type: object
           required:
           - id
-          - userId
+          - ownerId
           properties:
             id:
               type: integer
@@ -245,7 +255,7 @@ components:
     MissingParameter:
       type: object
       properties:
-        code: 
+        status: 
           type: integer
           example: 1
         error:

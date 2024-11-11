@@ -66,7 +66,7 @@ export function deleteBook(req, rsp) {
 
 function sendError(err, rsp) {
     const httpErr = errosMapping(err)
-    rsp.status(httpErr.status).json(httpErr.body)
+    rsp.status(httpErr.status).json(httpErr.error)
 }
 
 function getUserId(req) {
