@@ -1,34 +1,24 @@
 /**
- * Configures books api routes, and starts HTTP server
+ * Starts HTTP server
  */
 
 import express from 'express'
-import * as api from './books-api.mjs'
-const app = express()
-
-app.use(express.json())
+export const app = express()
 
 
-// Web Application Resources URIs
-const RESOURCES = {
-    BOOKS: '/api/books',
-    BOOK: '/api/books/:bookId'
-}
-
-
-
-// Web Application Routes
-app.get(RESOURCES.BOOKS, api.getBooks)
-app.post(RESOURCES.BOOKS, api.addBook)
-
-app.get(RESOURCES.BOOK, api.getBook)
-app.put(RESOURCES.BOOK, api.updateBook)
-app.delete(RESOURCES.BOOK, api.deleteBook)
+import init from './books-server-config.mjs'
+init(app)
 
 
 const PORT = 1904
-app.listen(PORT)
-console.log(`Server listening on port ${1904}`)
+app.listen(PORT, serverStarted)
+
+function serverStarted(e) {
+    if(e) {
+        return console.log(`Server not started because of the following error: ${e}`)
+    }
+    console.log(`Server listening on port ${1904}`)
+}
 
 
 
