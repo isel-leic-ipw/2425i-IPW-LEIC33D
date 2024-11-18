@@ -4,13 +4,32 @@
 
 
 import errors from './errors.mjs'
-import * as booksData from './books-data-mem.mjs'
+import * as booksData from './data/books-data-mem.mjs'
+import * as usersData from './data/users-data-mem.mjs'
+
+
+function changeUserTokenToUserIdArgument(internalFunction) {
+    return function(...args) {
+        const userToken = args.pop()
+        return usersData.convertTokenToId(userToken)
+                .then(userId => { 
+                    args.push(userId)
+                    return internalFunction.apply(this, args)
+                })
+    }
+}
+
+export const getBooks  = changeUserTokenToUserIdArgument(getBooksInternal)
+export const getBook = changeUserTokenToUserIdArgument(getBookInternal)
+export const updateBook = changeUserTokenToUserIdArgument(updateBookInternal)
+export const createBook = changeUserTokenToUserIdArgument(createBookInternal)
+export const deleteBook = changeUserTokenToUserIdArgument(deleteBookInternal)
 
 /**
  * 
  * @returns Returns A Promise resolved with an array, with all books
  */
-export function getBooks(userId) {
+function getBooksInternal(userId) {
     return booksData.getBooks(userId)
 }
 
@@ -20,7 +39,8 @@ export function getBooks(userId) {
  * @param {*} bookCreator - The object with the initial data to create a Book
  * @returns a Promise resolved with the created book
  */
-export function createBook(bookCreator, userId) {
+
+function createBookInternal(bookCreator, userId) {
     // Validate if user exists - TODO
     if(bookCreator.title && bookCreator.isbn) {
         return booksData.createBook(bookCreator, userId)
@@ -28,7 +48,7 @@ export function createBook(bookCreator, userId) {
     return Promise.reject(errors.INVALID_DATA(`To create a Book, a title and isbn must be provided`))
 }
 
-export function getBook(bookId, userId) {
+function getBookInternal(bookId, userId) {
     return booksData.getBook(bookId)
         .then(book => {
             if(book.ownerId == userId)
@@ -38,8 +58,7 @@ export function getBook(bookId, userId) {
         })    
 }
 
-export function updateBook(bookId, bookUpdater, userId) {
-    
+function updateBookInternal(bookId, bookUpdater, userId) {    
     if(bookUpdater.title && bookUpdater.isbn) {
         return booksData.updateBook(bookId, bookUpdater, userId)       
     } else {
@@ -47,7 +66,7 @@ export function updateBook(bookId, bookUpdater, userId) {
     }
 }
 
-export function deleteBook(bookId, userId) {
+function deleteBookInternal(bookId, userId) {
     return booksData.getBook(bookId)
         .then(book => {
             if(book.id == userId)

@@ -10,7 +10,7 @@ info:
   version: 1.0.0
 servers:
   - description: Localhost server for testing API
-    url: http://localhost:1904/
+    url: http://localhost:1904
 
 security:
   - bearerAuth: []
@@ -59,36 +59,35 @@ paths:
       description: By passing in the appropriate options, you can search for available
         Books
       operationId: getBooks
-      parameters:
-        - name: q
-          in: query
-          description: Query to match in book title
-          schema: 
-            type: string
-          required: false
-        - name: limit
-          in: query
-          description: number of books to return
-          schema:
-            default: 30
-            minimum: 0
-            type: integer
-          required: false
-        - name: skip
-          in: query
-          description: The page number
-          schema:
-            minimum: 0
-            default: 0
-            type: integer
-          required: false
+      # parameters:
+      #   - name: q
+      #     in: query
+      #     description: Query to match in book title
+      #     schema: 
+      #       type: string
+      #     required: false
+      #   - name: limit
+      #     in: query
+      #     description: number of books to return
+      #     schema:
+      #       default: 30
+      #       minimum: 0
+      #       type: integer
+      #     required: false
+      #   - name: skip
+      #     in: query
+      #     description: The page number
+      #     schema:
+      #       minimum: 0
+      #       default: 0
+      #       type: integer
+      #     required: false
       responses:
         200:
           description: get all books, with the specified criteria and pagination 
           content:
             application/json:
               schema:
-                type: array
                 items:
                   $ref: '#/components/schemas/Book'
         400:
@@ -133,7 +132,7 @@ paths:
         required: true
         schema:
           type: integer
-          minimum: 0
+          minimum: 1
       responses:
         200:
           description: successful operation
@@ -211,6 +210,7 @@ components:
     NewBook:
       required:
       - title
+      - isbn
       type: object
       properties:
         title:
@@ -221,8 +221,8 @@ components:
           example: 978-3-16-148410-0
     Book:
       allOf: 
-        - $ref: "#/components/schemas/NewBook"
         - type: object
+        - $ref: "#/components/schemas/NewBook"
           required:
           - id
           - ownerId

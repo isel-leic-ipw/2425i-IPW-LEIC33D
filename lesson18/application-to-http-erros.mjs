@@ -3,7 +3,7 @@ import {ERROR_CODES}  from "./errors.mjs"
 
 function HttpError(status, obj) {
     this.status = status
-    this.error = obj
+    this.body = obj
 }
 
 const ERROR_MAPPING =  {

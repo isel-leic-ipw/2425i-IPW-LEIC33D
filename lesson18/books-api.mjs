@@ -4,6 +4,7 @@
 
 import * as booksService from './books-service.mjs'
 import errosMapping from './application-to-http-erros.mjs'
+import { isGuid } from 'is-guid'
 
 
 // export async function getBooks(req, rsp) {
@@ -13,64 +14,92 @@ import errosMapping from './application-to-http-erros.mjs'
 //     rsp.json(books)
 // }
 
-export function getBooks(req, rsp) {
-    const userId = getUserId(req)
-    // rsp.type('application/json')
-        // .send(JSON.stringify(BOOKS))
-    booksService.getBooks(userId)
-        .then(books => rsp.json(books))
+
+export const getBooks = createHandler(internalGetBooks)
+export const addBook = createHandler(internalAddBook)
+export const getBook = createHandler(internalGetBook)
+export const updateBook = createHandler(internalUpdateBook)
+export const deleteBook = createHandler(internalDeleteBook)
+
+function internalGetBooks(req, rsp) {
+    return booksService.getBooks(req.token).then(
+        books => rsp.json(books)
+    )
 }
 
-export function addBook(req, rsp) {
-    const userId = getUserId(req)
+function internalAddBook(req, rsp) {
     let bookRepresentation = req.body
 
-    booksService.createBook(bookRepresentation, userId)
-        .then(book => rsp.status(201).send({
+    return booksService.createBook(bookRepresentation, req.token).then(
+        book => rsp.status(201).json({
             description: `Book created`,
             uri: `/api/books/${book.id}`
-        }))
-        .catch(error => sendError(error, rdp))
+        })
+    )
 }
 
-export async function getBook(req, rsp) {
+function internalGetBook(req, rsp) {
     const bookId = req.params.bookId
-    const userId = getUserId(req)
+    const userToken = req.token
 
-    booksService.getBook(bookId, userId)
-        .then(book => rsp.json(book))
-        .catch(error => sendError(error, rsp))
+    return booksService.getBook(bookId, userToken).then(
+        book => rsp.json(book)
+    )
 }
 
-export function updateBook(req, rsp) {
+function internalUpdateBook(req, rsp) {
     const bookRepresentation = req.body
     const bookId = req.params.bookId 
-    const userId = getUserId(req)
+    const userToken = req.token
     
-    booksService.updateBook(bookId, bookRepresentation, bookId, userId)
-        .then(book => rsp.json({ message: `Book with id ${bookId} updated` }))
-        .catch(error => sendError(error, rdp))
 
+    return booksService.updateBook(bookId, bookRepresentation, bookId, userToken)
+        .then(book => rsp.json({ message: `Book with id ${bookId} updated` })
+    )
 }
 
-export function deleteBook(req, rsp) {
+function internalDeleteBook(req, rsp) {
     const bookId = req.params.bookId
-    const userId = getUserId(req)
-    booksService.deleteBook(bookId, userId)
-        .then(bookId => rsp.json({ message: `Book with id ${bookId} deleted` }))
-        .catch(error => sendError(error, rdp))
+    const userToken = getUserToken(req)
+
+    return booksService.deleteBook(bookId, userToken).then(
+        bookId => rsp.json({ message: `Book with id ${bookId} deleted` })
+    )
 }
 
 ///////// Auxiliary functions
 
 
-function sendError(err, rsp) {
-    const httpErr = errosMapping(err)
-    rsp.status(httpErr.status).json(httpErr.error)
+function createHandler(specificFunction) {
+    return function (req, rsp) {
+        const userToken = getUserToken(req)
+        req.token = userToken
+
+        const promiseResult = specificFunction(req, rsp)
+    
+        promiseResult
+            .catch(error => sendError(rsp, error))
+    }
 }
 
-function getUserId(req) {
+function sendError(rsp, appError) {
+    const httpError = errosMapping(appError)
+    rsp.status(httpError.status).json(httpError.body)
+}
+
+
+
+
+function getUserToken(req) {
     // HAMMER TIME: This should be replaced by the proper code to get user id from request
-    const fakeUserId = 1
-    return fakeUserId
+    //const fakeUserToken = "c176eafd-25eb-45d3-a8cb-7218f3d63b3b"
+    const authHeader = req.get("Authorization")
+    if(!authHeader) {
+        // TODO send unauthorized error to client
+    }
+    const authHeaderParts = authHeader.split(" ")
+    if(authHeaderParts.length != 2 || authHeaderParts[0] != "Basic" || !isGuid(authHeaderParts[1])) {
+        // TODO send bad request error to client
+    }
+    return authHeaderParts[1]
 }

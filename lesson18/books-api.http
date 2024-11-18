@@ -1,17 +1,29 @@
 @prefix = http://localhost:1904/api
 
+@tokenUser1 = c176eafd-25eb-45d3-a8cb-7218f3d63b3b
+@tokenUser2 = 3efa8c5d-a9f4-4d71-be2d-8d9347e540c0
+@tokenUserNonExisting = 3efa8c5d-a9f4-4d71-be2d-8d9347e540c1
+
+
+@token = {{tokenUserNonExisting}}
+
+
 ### List/Search books
-GET {{prefix}}/books?q=sometitle&limit=3&skip=9
+GET {{prefix}}/books
+Authorization: Basic {{token}}
 
 
 ### Get book details 
-GET {{prefix}}/books/1
+GET {{prefix}}/books/6
+Authorization: Basic {{token}}
 
 ### Delete Book
 DELETE {{prefix}}/books/1
+Authorization: Basic {{token}}
 
 ### Update Book
-PUT {{prefix}}/books/1
+PUT {{prefix}}/books/2
+Authorization: Basic {{token}}
 Content-Type: application/json
 
 {
@@ -22,6 +34,7 @@ Content-Type: application/json
 
 ### Create Book
 POST {{prefix}}/books
+Authorization: Basic {{token}}
 Content-Type: application/json
 
 {
@@ -33,34 +46,4 @@ Content-Type: application/json
 GET {{prefix}}/dsfdsfds 
 
 
-# 1ª
-1
-2
-3
 
-# 2º
-4
-5
-6
-
-# 3º
-7
-8
-9
-
-# 4º
-10
-11
-12
-
-13
-14
-15
-
-16
-17
-18
-
-19
-20
-21

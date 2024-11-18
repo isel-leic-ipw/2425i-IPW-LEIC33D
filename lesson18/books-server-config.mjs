@@ -5,6 +5,8 @@
 import express from 'express'
 import * as api from './books-api.mjs' 
 
+console.log("Server-config loaded")
+
 export default function(app) {
     app.use(express.json())
 

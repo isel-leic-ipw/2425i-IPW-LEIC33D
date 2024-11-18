@@ -5,16 +5,15 @@
 import swaggerUi from 'swagger-ui-express'
 import yaml from 'yamljs'
 import express from 'express'
-export const app = express()
+import cors from 'cors'
 
+export const app = express()
+const swaggerDocument = yaml.load('./docs/books-api.yaml')
 
 import init from './books-server-config.mjs'
-const swaggerDocument = yaml.load('./docs/books-api.yaml')
+app.use(cors())
 app.use('/slb', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-
 init(app)
-
-
 
 const PORT = 1904
 app.listen(PORT, serverStarted)
