@@ -5,7 +5,7 @@
 @tokenUserNonExisting = 3efa8c5d-a9f4-4d71-be2d-8d9347e540c1
 
 
-@token = {{tokenUserNonExisting}}
+@token = {{tokenUser1}}
 
 
 ### List/Search books
@@ -14,7 +14,7 @@ Authorization: Basic {{token}}
 
 
 ### Get book details 
-GET {{prefix}}/books/6
+GET {{prefix}}/books/2
 Authorization: Basic {{token}}
 
 ### Delete Book
