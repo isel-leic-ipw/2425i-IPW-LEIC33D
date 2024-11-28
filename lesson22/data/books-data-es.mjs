@@ -13,7 +13,7 @@ function Book(id, title, isbn, ownerId) {
 }
 
 const URI_PREFIX = 'http://localhost:9200/'
-const INDEX = 'books'
+const INDEX = 'books1'
 
 
 export function getBooks(userId) {

@@ -49,18 +49,19 @@ Content-Type: application/json
     "ownerId": 1    
 }
 
+
 ### Get all index documents
 
-GET http://{{host}}:{{port}}/books/_search
+GET http://{{host}}:{{port}}/books1/_search
 
 
 
 ### Delete a document
 
-DELETE http://{{host}}:{{port}}/books/_doc/eY05T5MBJq6AjBzUI2ee
+DELETE http://{{host}}:{{port}}/books/_doc/NEI_UJMB7XEYplQ2CwhG
 
 ### Change document using PUT
-PUT http://{{host}}:{{port}}/books/_doc/slb
+PUT http://{{host}}:{{port}}/books/_doc/NEI_UJMB7XEYplQ2CwhG
 Content-Type: application/json
 
 {
@@ -71,4 +72,4 @@ Content-Type: application/json
 
 
 ### GET a document
-GET http://{{host}}:{{port}}/books/_doc/slb
+GET http://{{host}}:{{port}}/books/_doc/NEI_UJMB7XEYplQ2CwhG

@@ -3,7 +3,16 @@
  */
 
 import express from 'express'
-import * as api from './books-api.mjs' 
+
+import * as usersData from './data/users-data-mem.mjs'
+//import * as booksData from './data/books-data-mem.mjs'
+import * as booksData from './data/books-data-es.mjs'
+import booksServiceInit from './books-service.mjs'
+import apiInit from './books-api.mjs' 
+
+const booksService = booksServiceInit(booksData, usersData)
+const api = apiInit(booksService)
+
 
 console.log("Server-config loaded")
 
