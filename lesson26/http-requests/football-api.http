@@ -1,0 +1,53 @@
+## LF
+@KEY = 37eb60d963f1cbea94a0544563e4e0ea 
+## Filipe
+@KEY = e270e293ba3cef9d3e610437262bffae 
+
+
+### Get account status
+GET https://v3.football.api-sports.io/status
+x-apisports-key: {{KEY}}
+
+
+### Get team by id
+GET https://v3.football.api-sports.io/teams?id=211
+x-apisports-key: {{KEY}}
+
+### Get team by season
+GET https://v3.football.api-sports.io/teams?season=2022&league=94
+x-apisports-key: {{KEY}}
+
+
+### Get team leagues
+GET https://v3.football.api-sports.io/leagues?team=211
+x-apisports-key: {{KEY}}
+
+
+### Get Benfica Team
+GET https://v3.football.api-sports.io/teams?name=Benfica
+x-apisports-key: {{KEY}}
+
+
+### Get leagues for a country
+GET https://v3.football.api-sports.io/leagues?code=PT
+x-apisports-key: {{KEY}}
+
+
+### Get Portuguese league for 2022
+GET https://v3.football.api-sports.io/leagues?id=94&season=2022
+x-apisports-key: {{KEY}}
+
+
+### Get Portuguese league teams for 2022
+GET https://v3.football.api-sports.io/teams?league=94&season=2022
+x-apisports-key: {{KEY}}
+
+### Get Benfica players for 2022 league
+GET https://v3.football.api-sports.io/players?league=94&season=2022&team=211
+x-apisports-key: {{KEY}}
+
+
+### Get Benfica Team for the current season
+
+GET https://v3.football.api-sports.io/players/squads?team=211
+x-apisports-key: {{KEY}}

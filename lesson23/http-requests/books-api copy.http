@@ -1,0 +1,49 @@
+@prefix = http://localhost:1904/api
+
+@tokenUser1 = c176eafd-25eb-45d3-a8cb-7218f3d63b3b
+@tokenUser2 = 3efa8c5d-a9f4-4d71-be2d-8d9347e540c0
+@tokenUserNonExisting = 3efa8c5d-a9f4-4d71-be2d-8d9347e540c1
+
+
+@token = {{tokenUser1}}
+
+
+### List/Search books
+GET {{prefix}}/books
+Authorization: Basic {{token}}
+
+
+### Get book details 
+GET {{prefix}}/books/2
+Authorization: Basic {{token}}
+
+### Delete Book
+DELETE {{prefix}}/books/1
+Authorization: Basic {{token}}
+
+### Update Book
+PUT {{prefix}}/books/2
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "title": "New Book",
+    "isbn": 902323
+}
+
+
+### Create Book
+POST {{prefix}}/books
+Authorization: Basic {{token}}
+Content-Type: application/json
+
+{
+    "title": "New Book",
+    "isbn": 902323
+}
+
+### Non registred route
+GET {{prefix}}/dsfdsfds 
+
+
+

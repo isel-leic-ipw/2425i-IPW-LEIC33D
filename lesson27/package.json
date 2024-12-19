@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "hbs": "^4.2.0",
+    "is-guid": "^0.0.2",
+    "swagger-ui-express": "^5.0.1",
+    "url": "^0.11.4",
+    "yamljs": "^0.3.0"
+  }
+}
